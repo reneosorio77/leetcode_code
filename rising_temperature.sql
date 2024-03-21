@@ -1,4 +1,4 @@
--- Write a solution to report the name and bonus amount of each employee with a bonus less than 1000.
+-- Write a solution to find all dates' Id with higher temperatures compared to its previous dates (yesterday).
 
 -- Return the result table in any order.
 
@@ -9,32 +9,27 @@
 -- Example 1:
 
 -- Input:
--- Employee table:
--- +-------+--------+------------+--------+
--- | empId | name   | supervisor | salary |
--- +-------+--------+------------+--------+
--- | 3     | Brad   | null       | 4000   |
--- | 1     | John   | 3          | 1000   |
--- | 2     | Dan    | 3          | 2000   |
--- | 4     | Thomas | 3          | 4000   |
--- +-------+--------+------------+--------+
--- Bonus table:
--- +-------+-------+
--- | empId | bonus |
--- +-------+-------+
--- | 2     | 500   |
--- | 4     | 2000  |
--- +-------+-------+
+-- Weather table:
+-- +----+------------+-------------+
+-- | id | recordDate | temperature |
+-- +----+------------+-------------+
+-- | 1  | 2015-01-01 | 10          |
+-- | 2  | 2015-01-02 | 25          |
+-- | 3  | 2015-01-03 | 20          |
+-- | 4  | 2015-01-04 | 30          |
+-- +----+------------+-------------+
 -- Output:
--- +------+-------+
--- | name | bonus |
--- +------+-------+
--- | Brad | null  |
--- | John | null  |
--- | Dan  | 500   |
--- +------+-------+
+-- +----+
+-- | id |
+-- +----+
+-- | 2  |
+-- | 4  |
+-- +----+
+-- Explanation:
+-- In 2015-01-02, the temperature was higher than the previous day (10 -> 25).
+-- In 2015-01-04, the temperature was higher than the previous day (20 -> 30).
 # Write your MySQL query statement below
-SELECT e.name AS name, b.bonus AS bonus
-FROM Employee e
-LEFT JOIN Bonus b ON e.empId = b.empId
-WHERE bonus IS NULL OR b.bonus < 1000;
+SELECT w1.id AS  id
+FROM Weather w1
+JOIN Weather w2 ON DATEDIFF(w1.recordDate, w2.recordDate) = 1
+WHERE w1.temperature > w2.temperature;

@@ -27,8 +27,10 @@
 -- | John |
 -- +------+
 # Write your MySQL query statement below
-SELECT e1.name AS name
-FROM Employee e1
-JOIN Employee e2 ON e1.id = e2.managerId
-GROUP BY e1.name
-HAVING COUNT(e1.id>=5);
+select name
+from employee
+where id in
+  (select managerId
+   from employee
+   group by managerId
+   having count(managerId)>4);
